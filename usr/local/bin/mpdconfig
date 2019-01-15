@@ -1,0 +1,95 @@
+#!/bin/bash
+echo "============================================================================================="
+echo "Dinobot U5 Mini MusicPlayer Daemon Configuration Script"
+echo "Ref : androidoverlinux.djjproject.com"
+echo "You can exit with CTRL+C"
+echo "============================================================================================="
+
+echo ""
+echo "Configuration Start"
+read -p 'Music Directory : ' dir
+
+
+echo ""
+echo "# friendly your dac name, eg. Hisilicon DAC or LGHIFIDAC"
+read -p 'DAC Name : ' name
+
+echo ""
+echo "# When you use internal DAC, use hw:0,0"
+echo "# or use USB DAC, enter hw:2,0"
+read -p 'Device (hw:0,0 or hw:2,0) : ' device
+
+echo ""
+echo "# If your USB DAC can play DSD file, enter yes."
+echo "# Hisilicon DAC --> no"
+read -p 'DSD Native (yes or no) : ' dsd
+
+cat << EOF > /etc/mpd.conf
+music_directory                 "$dir"
+playlist_directory              "/var/lib/mpd/playlists"
+db_file                         "/var/lib/mpd/tag_cache"
+log_file                        "/var/log/mpd/mpd.log"
+pid_file                        "/run/mpd/pid"
+state_file                      "/var/lib/mpd/state"
+sticker_file                    "/var/lib/mpd/sticker.sql"
+user                            "root"
+group                           "root"
+bind_to_address                 "0.0.0.0"
+port                            "6600"
+auto_update                     "yes"
+audio_output {
+        type            "alsa"
+        name            "$name"
+        device          "$device"
+        auto_resample   "no"
+        auto_channels   "no"
+        auto_format     "no"
+        mixer_type      "software"
+        dsd_usb         "$dsd"
+}
+filesystem_charset              "UTF-8"
+id3v1_encoding                  "UTF-8"
+decoder {
+	plugin "sacdiso"
+	dstdec_threads "4"
+	edited_master "true"
+	lsbitfirst "false"
+	playable_area "stereo"
+}
+decoder {
+	plugin "dvdaiso"
+	no_downmixes "false"
+	no_short_tracks "false"
+	playable_area "multichannel"
+	tags_path "/var/lib/mpd/dvda_metabase"
+	tags_with_iso "true"
+}
+EOF
+
+
+
+echo ""
+echo "# /etc/mpd.conf : Configuration file saved."
+
+
+echo ""
+echo "# If you use USB DAC enter Y, else N"
+read -p 'Drop Android USB Audio Service : ' input
+
+case $input in
+	Y)
+		system-rw
+		sed -i -e '121,138s/^/#/' /system/etc/audio_policy.conf
+		echo "# You should reboot device."
+		;;
+	N)
+		;;
+	*)
+		;;
+esac
+
+
+
+echo "============================================================================================="
+echo "Configuration Completed. Enjoy your U5 MPD and DLNA MPD Service."
+echo "============================================================================================="

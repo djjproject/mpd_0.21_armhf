@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "#### custom mpd installation started. ####"
+echo "#### compiled by romanceassassin. maintained by djjproject. ####"

@@ -1,0 +1,7 @@
+Package: u5pvr-mpd-romanceassassin
+Version: 1.0-romanceassassin
+Architecture: armhf
+Depends: mpd
+Maintainer: djjproject (djj9404@gmail.com)
+Homepage: http://blog.djjproject.com/
+Description: Music Player Daemon compiled by romanceassassin. ver 0.21 / sacd iso support.
