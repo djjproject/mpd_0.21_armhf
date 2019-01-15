@@ -13,3 +13,10 @@ DSD ISO Playback supported.
 DVD ISO Palyback supported.  
 tidal token supported.  
 
+## make deb package
+git clone https://github.com/djjproject/mpd_0.21_armhf  
+cd mpd_0.21_armhf  
+rm -rf .git  
+rm -rf README.md  
+cd ..  
+dpkg -b mpd_0.21_armhf  
