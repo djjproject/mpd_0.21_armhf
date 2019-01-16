@@ -1,5 +1,5 @@
 # MusicPlayerDaemon 0.21 armhf deb package
-# for U5MINI / U5PVR
+# It's not working now.. :(
 /usr/bin/mpd binary is compiled by romanceassassin.  
 deb package maintained by djjproject.  
 
