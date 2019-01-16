@@ -1,3 +1,4 @@
 #!/bin/sh
 echo "#### custom mpd installation started. ####"
 echo "#### compiled by romanceassassin. maintained by djjproject. ####"
+/etc/init.d/mpd stop
